@@ -55,14 +55,6 @@ public class ExpenseManagerController {
         expenseManager.importFromFile(file);
     }
 
-    /**
-     * Performs the import operation by selecting a file and importing its
-     * contents.
-     *
-     * @return The path of the imported file, or null if cancelled
-     * @throws IOException If an I/O error occurs
-     * @throws ParseException If the date format is invalid
-     */
     public String performImport() throws IOException, ParseException {
         File importFile = expenseManager.selectImportFile();
         if (importFile != null) {
@@ -72,13 +64,6 @@ public class ExpenseManagerController {
         return null;
     }
 
-    /**
-     * Performs the export operation by selecting a file and exporting expenses
-     * to it.
-     *
-     * @return The path of the exported file, or null if cancelled
-     * @throws IOException If an I/O error occurs
-     */
     public String performExport() throws IOException {
         File exportFile = expenseManager.selectExportFile();
         if (exportFile != null) {

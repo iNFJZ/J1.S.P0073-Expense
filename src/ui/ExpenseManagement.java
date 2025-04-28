@@ -24,7 +24,6 @@ public class ExpenseManagement {
     public static void main(String[] args) throws IOException, ParseException {
         ExpenseManagerController controller = new ExpenseManagerController();
         JFileChooser fileChooser = new JFileChooser();
-        // Set file filter for .txt and .csv files
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text and CSV files", "txt", "csv");
         fileChooser.setFileFilter(filter);
         String menu = """

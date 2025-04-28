@@ -83,13 +83,11 @@ public class ExpenseManager {
 
     public void exportToFile(File file) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            // Write header
             writer.write("ID,Date,Amount,Content");
             writer.newLine();
 
-            // Write each expense
             for (Expense expense : expenses) {
-                String content = expense.getContent().replace("\"", "\"\""); // Escape quotes
+                String content = expense.getContent().replace("\"", "\"\"");
                 String line = String.format("%d,%s,%.2f,\"%s\"",
                         expense.getId(),
                         expense.getDate(),
@@ -101,14 +99,6 @@ public class ExpenseManager {
         }
     }
 
-    /**
-     * Imports expenses from a file and adds them to the expenses list.
-     *
-     * @param file The input file
-     * @throws IOException If an I/O error occurs
-     * @throws ParseException If the date format is invalid
-     * @throws NumberFormatException If the amount is not a valid number
-     */
     public void importFromFile(File file) throws IOException, ParseException, NumberFormatException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         dateFormat.setLenient(false);
@@ -120,7 +110,6 @@ public class ExpenseManager {
             }
 
             while ((line = reader.readLine()) != null) {
-                // Split on commas, but respect quoted content
                 String[] parts = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 if (parts.length != 4) {
                     System.err.println("Skipping invalid line: " + line);
@@ -131,16 +120,13 @@ public class ExpenseManager {
                     int id = Integer.parseInt(parts[0].trim());
                     String date = parts[1].trim();
                     double amount = Double.parseDouble(parts[2].trim());
-                    String content = parts[3].trim().replaceAll("^\"|\"$", "").replace("\"\"", "\""); // Remove quotes, unescape
+                    String content = parts[3].trim().replaceAll("^\"|\"$", "").replace("\"\"", "\"");
 
-                    // Validate date
-                    dateFormat.parse(date); // Throws ParseException if invalid
+                    dateFormat.parse(date);
 
-                    // Create and add expense
                     Expense expense = new Expense(id, date, amount, content);
                     expenses.add(expense);
 
-                    // Update lastId if necessary
                     if (id > lastId) {
                         lastId = id;
                     }
@@ -151,11 +137,6 @@ public class ExpenseManager {
         }
     }
 
-    /**
-     * Opens a file chooser dialog to select a file for importing expenses.
-     *
-     * @return The selected file, or null if the user cancels
-     */
     public File selectImportFile() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text and CSV files", "txt", "csv");
@@ -168,11 +149,6 @@ public class ExpenseManager {
         return null;
     }
 
-    /**
-     * Opens a file chooser dialog to select a file for exporting expenses.
-     *
-     * @return The selected file, or null if the user cancels
-     */
     public File selectExportFile() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text and CSV files", "txt", "csv");
